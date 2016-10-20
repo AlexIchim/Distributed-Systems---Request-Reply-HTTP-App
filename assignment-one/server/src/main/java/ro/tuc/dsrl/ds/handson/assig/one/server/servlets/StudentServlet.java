@@ -68,4 +68,35 @@ public class StudentServlet extends AbstractServlet {
 
         return response;
     }
+
+    @Override
+    public String doDelete(RequestMessage message) {
+
+        String response;
+
+        //Id sent by URL
+        //String id = message.getQueryValues().get("id");
+
+        //Id sent by message body
+        String id2 = message.getSerializedObject();
+
+        if (id2 != null) {
+            try {
+                Student student = studentDao.deleteStudent(Integer.parseInt(id2));
+                if (student == null) {
+                    response = ResponseMessageEncoder.encode(StatusCode.NOT_FOUND);
+                } else {
+                    response = ResponseMessageEncoder.encode(StatusCode.OK, student);
+                }
+            } catch (NumberFormatException e) {
+                response = ResponseMessageEncoder.encode(StatusCode.BAD_REQUEST);
+            }
+        }
+
+        //Id missing form request
+        else {
+            response = ResponseMessageEncoder.encode(StatusCode.BAD_REQUEST);
+        }
+        return response;
+    }
 }

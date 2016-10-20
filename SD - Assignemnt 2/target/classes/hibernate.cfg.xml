@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory>
+    <session-factory>
 		<property name="hibernate.dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
@@ -11,9 +11,11 @@
 			com.mysql.jdbc.Driver
 		</property>
 
-		<!-- Assume test is the database name -->
+        <property name="hibernate.hbm2ddl.auto">create</property>
+
+        <!-- Assume test is the database name -->
 		<property name="hibernate.connection.url">
-			jdbc:mysql://localhost/assignment-one-db
+			jdbc:mysql://localhost/FlightProject?createDatabaseIfNotExist=true
 		</property>
 		<property name="hibernate.connection.username">
 			root
@@ -21,7 +23,9 @@
 		<property name="hibernate.connection.password">
 		</property>
 
-		<mapping resource="student.hbm.xml" />
+		<mapping resource="user.hbm.xml" />
+		<mapping resource="city.hbm.xml" />
+		<mapping resource="flight.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

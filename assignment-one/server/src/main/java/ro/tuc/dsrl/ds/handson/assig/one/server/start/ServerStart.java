@@ -1,8 +1,10 @@
 package ro.tuc.dsrl.ds.handson.assig.one.server.start;
 
+import org.hibernate.cfg.Configuration;
 import ro.tuc.dsrl.ds.handson.assig.one.server.communication.Server;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import ro.tuc.dsrl.ds.handson.assig.one.server.dao.StudentDAO;
 
 import java.io.IOException;
 

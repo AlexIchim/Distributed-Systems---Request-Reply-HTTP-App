@@ -86,4 +86,26 @@ public class StudentDAO {
 		}
 		return students != null && !students.isEmpty() ? students.get(0) : null;
 	}
+
+	public Student deleteStudent(int id) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Student delStud = null;
+
+		try {
+			tx = session.beginTransaction();
+			delStud = session.get(Student.class, id);
+			String hql = "delete from Student where id= :id";
+			session.createQuery(hql).setParameter("id", id).executeUpdate();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			LOGGER.error("", e);
+		} finally {
+			session.close();
+		}
+		return delStud;
+	}
 }

@@ -41,6 +41,7 @@ public class CatalogController {
 
 		serverConnection = new ServerConnection(HOST, PORT);
 
+		catalogView.addBtnDeleteActionListener(new DeleteActionListener());
 		catalogView.addBtnGetActionListener(new GetActionListener());
 		catalogView.addBtnPostActionListener(new PostActionListener());
 	}
@@ -126,6 +127,39 @@ public class CatalogController {
 			} catch (IOException ex) {
 				displayErrorMessage(ERROR_MESSAGE);
 				LOGGER.error("", ex);
+			}
+		}
+	}
+
+
+	/**
+	 * Provides functionality for the DELETE button.
+	 */
+	class DeleteActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (!catalogView.getStudentId().isEmpty()) {
+				String studentId =catalogView.getStudentId();
+				try {
+					//encode the request: a DELETE request, at the url "student", sending the student id in body
+					String encodedRequest = RequestMessageEncoder.encode(ProtocolMethod.DELETE, "student", studentId );
+					String response = serverConnection.sendRequest(encodedRequest);
+					//decode the response from server
+					ResponseMessage decodedResponse = ResponseMessageEncoder.decode(response);
+
+					//if server responded OK, then operation was successful, else display error
+					if (decodedResponse.getStatusCode() == StatusCode.OK.getCode()) {
+						catalogView.clearStudentInfo();
+						displayInfoMessage("Successfully deleted; \n" + decodedResponse.getDeserializedObject(Student.class));
+					} else {
+						displayErrorMessage("Status code " + decodedResponse.getStatusCode());
+					}
+
+				} catch (IOException ex) {
+					LOGGER.info(ex.getMessage());
+					displayErrorMessage(ex.getMessage());
+				}
 			}
 		}
 	}

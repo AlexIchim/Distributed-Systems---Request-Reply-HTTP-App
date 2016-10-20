@@ -24,7 +24,9 @@ public class CatalogView extends JFrame {
 	private JTextField textId;
 	private JButton btnGet;
 	private JButton btnPost;
+	private JButton btnDel;
 	private JTextArea textArea;
+
 
 	public CatalogView() {
 		setTitle("HTTP Protocol simulator");
@@ -34,6 +36,10 @@ public class CatalogView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
+		btnDel = new JButton("DELETE");
+		btnDel.setBounds(235, 110, 89, 23);
+		contentPane.add(btnDel);
 
 		JLabel lblInsertNewStudent = new JLabel("Insert new student");
 		lblInsertNewStudent.setBounds(10, 11, 120, 14);
@@ -90,6 +96,8 @@ public class CatalogView extends JFrame {
 		textArea = new JTextArea();
 		textArea.setBounds(235, 131, 171, 120);
 		contentPane.add(textArea);
+
+
 	}
 
 	public void addBtnGetActionListener(ActionListener e) {
@@ -99,6 +107,8 @@ public class CatalogView extends JFrame {
 	public void addBtnPostActionListener(ActionListener e) {
 		btnPost.addActionListener(e);
 	}
+
+	public void addBtnDeleteActionListener(ActionListener e) {btnDel.addActionListener(e);}
 
 	public String getStudentId() {
 		return textId.getText();
@@ -125,5 +135,9 @@ public class CatalogView extends JFrame {
 		textFirstname.setText("");
 		textLastname.setText("");
 		textMail.setText("");
+	}
+
+	public void clearStudentInfo() {
+		textArea.setText("");
 	}
 }
